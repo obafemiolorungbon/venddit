@@ -25,7 +25,6 @@ const unhashPassword = require("../../lib/unHashPassword");
 router.post('/signup', formParser,validationRules(),validation,alreadyExists(User),hashPassword, async(req, res) => {
     try{
        let response = await createUser(req, User);
-       console.log(response);
        res.send(response)
     }catch(err){
         console.log(err)
