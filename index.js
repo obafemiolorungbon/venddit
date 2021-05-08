@@ -1,12 +1,10 @@
 //Main entry point//
 const express = require("express");
 //cookieparser for cookies
-const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
+const PORT = process.env.PORT||5000 
 //dotenv config file
-const {
-  port, sessionSecret,sessionMaxAge
-} = require('./lib/envConfig');
+const {sessionSecret,sessionMaxAge} = require('./lib/envConfig');
 //path for file url management
 const path = require("path");
 //For session management
