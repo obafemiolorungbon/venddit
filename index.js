@@ -22,7 +22,6 @@ app.use(
     secret: sessionSecret,
   })
   );
-const PORT = port;
 const userRouter = require("./routes/users/users");
 app.use("/users", userRouter);
 const suscribedRouter = require("./routes/users/subscribe");
