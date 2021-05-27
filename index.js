@@ -1,13 +1,10 @@
 //Main entry point//
 const express = require("express");
-//cookieparser for cookies
 const morgan = require("morgan");
 const PORT = process.env.PORT||5000 
-//dotenv config file
 const {sessionSecret,sessionMaxAge} = require('./lib/envConfig');
-//path for file url management
 const path = require("path");
-//For session management
+const cors = require("cors");
 const session = require('express-session');
 const app = express();
 app.use(
@@ -23,11 +20,14 @@ app.use(
   })
   );
 const userRouter = require("./routes/users/users");
+app.use(cors())
+app.use(express.urlencoded({extended:false}))
 app.use("/users", userRouter);
 const suscribedRouter = require("./routes/users/subscribe");
 app.use("/subscribed", suscribedRouter);
 //for request logging
 app.use(morgan('dev'));
+
  //the port dynamically set
  
 app.get("/", (req, res) => {
