@@ -15,5 +15,4 @@ module.exports = (dbName)=>{
     const token = mongoose.model("Token", tokenSchema);
 
     return token;
-
 }

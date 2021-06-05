@@ -12,9 +12,26 @@ module.exports = (dbName) => {
         email: { type: String, required: ["Email is not provided", true] },
         password: { type: String, required: ["No password provided", true] },
     });
-
-    const user = mongoose.model("user", usersSchema);
-
-    return user;
+    //if the environment is test, use a different db to avoid polluting the db
+    if (process.env.NODE_ENV == "test"){
+        //add an extra path to the db if it is in test mode which will automatically
+        // delete the entry after some time
+        //this is to avoid a 500 error that might arise from duplicate emails
+        usersSchema.add(
+            {
+                createdAt:
+                {
+                    type:Date,
+                    default:Date.now,
+                    expires:360
+                }
+            });
+        let user = mongoose.model("test", usersSchema);
+        return user;
+    }else{
+        let user = mongoose.model("user", usersSchema);
+        return user;
+    }
+    
 
 }
