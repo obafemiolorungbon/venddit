@@ -1,8 +1,8 @@
 const createUser = require("../database/createUser");
-const { dbName } = require("../lib/envConfig");
 
 //database imports
 const dbStructure = require("../database/modelStructure");
+const { dbName } = require("../lib/envConfig");
 const User = dbStructure(dbName);
 const tokenDB = require("../database/tokensDb");
 const Tokens = tokenDB(dbName);
@@ -15,20 +15,34 @@ const {
   CleanUp,
 } = require("../lib/ResetPassword");
 
+const tokenHelper = require("../lib/signToken")
 const formatTime = require("../lib/formatTime");
 const sendEmail = require("../utils/emailSender");
 const findUser = require("../database/findUser");
 const unhashPassword = require("../lib/unHashPassword");
 const resetTokens = require("../lib/ResetTokens");
-const addCookie = require("../lib/AddCookie");
 
 module.exports.Signup = async (req, res) => {
+ 
   try {
     let response = await createUser(req, User);
-    res.status(201).send(response);
-  } catch (err) {
-    console.log(err);
-    console.log(`An error just occured ${err.error}`);
+    const { token, options, code, user } = await tokenHelper.CreateAndSendToken(
+      response.account,
+      201,
+      res,
+      req
+    );
+     res.cookie("jwt", token,options);
+    
+    res.status(code).send({
+      token,
+      data:{
+        user
+      }
+    }
+    )
+} catch (err) {
+    console.log(`An error just occured ${err.message}`);
     res.status(500).send({ message: err.message, reason: err.error });
   }
 };
@@ -39,7 +53,7 @@ module.exports.resetPassword = async (req, res) => {
     console.log("REquest received");
     console.log(req.body.email);
     let result = await resetTokens(req.body.email, res, User, Tokens);
-    sendEmail(
+    let sendStatus = sendEmail(
       result.user.email,
       {
         name: result.user.businessName,
@@ -64,8 +78,19 @@ module.exports.signIn = async (req, res) => {
   try {
     let queryResult = await findUser(User, req, res);
     let UserAuth = await unhashPassword(req, queryResult);
-    let result = await addCookie(UserAuth, req);
-    res.send(result);
+    if (UserAuth){
+      const { token, options, code, user }= tokenHelper.CreateAndSendToken(queryResult.user,200,res,req)
+      res.cookie("jwt", token, options);
+      res.status(code).send({
+      token,
+      data:{
+        user
+      }
+    })
+  }
+  else{
+      res.status(400).send({message:"password incorrect, Kindly check", status:"failed"})
+    } 
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
@@ -103,5 +128,27 @@ module.exports.resetConfirm = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+
+module.exports.confirmUser = async (req,res) =>{
+    //this is the route the front end will always hit to see if user has been set
+    //as any user with cookies that contain jwt signed by this server is auth'ed
+    let currentUser;
+    try{
+        if (!req.cookies.jwt){
+            currentUser = null
+        }else{
+          //get the jwt from the cookie
+        const token = req.cookies.jwt;
+        const decoded = await tokenHelper.decode(token)
+        //get the user data associated with the Id and send it to the frontend
+        currentUser = await User.findById(decoded.id)
+        }
+        res.status(200).send({currentUser})
+    }catch(err){
+        console.log(err)
+        res.send(err.message)
+    }
+}
 
 module.exports.User = User

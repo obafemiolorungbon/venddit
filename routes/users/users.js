@@ -17,4 +17,6 @@ router.post("/signin", formParser,userController.signIn);
 
 router.post("/reset-confirm",formParser,userController.resetConfirm)
 
+router.get("/",userController.confirmUser)
+
 module.exports = router

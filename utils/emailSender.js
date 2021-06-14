@@ -1,56 +1,38 @@
-const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");//for creating email templates
 const fs = require("fs");
 const path = require("path");
-const dotenv = require("dotenv")
+require("dotenv").config();
+const emailConfig = require("./emailConfig")
 
-dotenv.config()
 
 // Function to send email to user requesting password reset
 // uses 3LO to authenthicate gmail API service
 const SendEmail = (email,payload,subject,templateUrl)=>{
-    try{
-        const transporter = nodemailer.createTransport({
-          host: process.env.EMAIL_HOST,
-          port: 465,
-          secure:true,
-          auth: {
-            type:"OAuth2",
-            user: process.env.EMAIL_USERNAME,
-            accessToken: process.env.ACCESS_TOKENS,
-            clientId: process.env.CLIENT_ID,
-            clientSecret : process.env.CLIENT_SECRET,
-            refreshToken : process.env.REFRESH_TOKENS 
-          },
-        });
+    return new Promise((resolve,reject)=>{
+        try{
+            const transporter = emailConfig.transporter
+            //template represents handlebars compiled for sending mails
+            const template = fs.readFileSync(path.join(__dirname,templateUrl),"utf8") 
+            const encodedData = handlebars.compile(template)
+            const mailConfig = emailConfig.senderConfig(encodedData,payload,email,subject)
+            transporter.sendMail(mailConfig(),(err, info)=>{
+                if (err){
+                    console.log(err.message)
+                    reject(err)
+                    return
+                }
+                console.log("Sent successfully")
+                resolve({status:"success"})
 
-        const template = fs.readFileSync(path.join(__dirname,templateUrl),"utf8") 
-        const encodedData = handlebars.compile(template)
-
-        const mailConfig = ()=>{
-            return{
-                from:process.env.FROM_EMAIL,
-                to:email,
-                subject:subject,
-                html:encodedData(payload)
+            })
+        }catch(err){
+            if(err){
+                console.log("Failed")
+                reject(err)
             }
         }
-        transporter.sendMail(mailConfig(),(err, info)=>{
-            if (err){
-                console.log("Err")
-                console.log(err)
-                return err
-            }
-            console.log("Sent successfully")
-        return({status:"success"})
+    })
 
-        })
-    }catch(err){
-        if(err){
-            console.log("Failed")
-            return err
-        }
-    }
 }
 
 module.exports = SendEmail
