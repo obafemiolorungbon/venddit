@@ -50,10 +50,8 @@ module.exports.Signup = async (req, res) => {
 
 module.exports.resetPassword = async (req, res) => {
   try {
-    console.log("REquest received");
-    console.log(req.body.email);
     let result = await resetTokens(req.body.email, res, User, Tokens);
-    let sendStatus = sendEmail(
+    await sendEmail(
       result.user.email,
       {
         name: result.user.businessName,
@@ -78,8 +76,8 @@ module.exports.signIn = async (req, res) => {
   try {
     let queryResult = await findUser(User, req, res);
     let UserAuth = await unhashPassword(req, queryResult);
-    if (UserAuth){
-      const { token, options, code, user }= tokenHelper.CreateAndSendToken(queryResult.user,200,res,req)
+    if (UserAuth.response){
+      const { token, options, code, user } = await tokenHelper.CreateAndSendToken(queryResult.user[0]._id,200,res,req)
       res.cookie("jwt", token, options);
       res.status(code).send({
       token,
@@ -89,7 +87,7 @@ module.exports.signIn = async (req, res) => {
     })
   }
   else{
-      res.status(400).send({message:"password incorrect, Kindly check", status:"failed"})
+      res.status(403).send({message:"password incorrect, Kindly check", status:"failed"})
     } 
   } catch (err) {
     console.log(err);
@@ -109,7 +107,7 @@ module.exports.resetConfirm = async (req, res) => {
       req.body.password
     );
     const { time, day } = await formatTime();
-    sendEmail(
+    await sendEmail(
       userInfo.email,
       {
         time: time,
