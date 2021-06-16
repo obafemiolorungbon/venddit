@@ -33,6 +33,7 @@ module.exports.Signup = async (req, res) => {
       req
     );
      res.cookie("jwt", token,options);
+     console.log(token)
     
     res.status(code).send({
       token,
@@ -132,6 +133,7 @@ module.exports.confirmUser = async (req,res) =>{
     //this is the route the front end will always hit to see if user has been set
     //as any user with cookies that contain jwt signed by this server is auth'ed
     let currentUser;
+    console.log(req.cookies)
     try{
         if (!req.cookies.jwt){
             currentUser = null
@@ -142,6 +144,7 @@ module.exports.confirmUser = async (req,res) =>{
         //get the user data associated with the Id and send it to the frontend
         currentUser = await User.findById(decoded.id)
         }
+        console.log(currentUser)
         res.status(200).send({currentUser})
     }catch(err){
         console.log(err)
