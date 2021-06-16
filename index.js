@@ -1,7 +1,6 @@
 //Main entry point//
 const express = require("express");
 const morgan = require("morgan");
-const path = require("path");
 require("dotenv").config()
 const cookieParser = require("cookie-parser")
 const PORT = process.env.PORT||3001 
