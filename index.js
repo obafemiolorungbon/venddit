@@ -18,9 +18,12 @@ app.use(express.urlencoded({extended:false}))
 const userRouter = require("./routes/users/users");
 app.use("/users", userRouter);
 const suscribedRouter = require("./routes/users/subscribe");
+const { handleErrors } = require("./errors/ErrorMiddleWare");
 app.use("/subscribed", suscribedRouter);
 //for request logging
 app.use(morgan('dev')); 
+
+app.use(handleErrors)
 
 app.listen(PORT, ()=> {
     console.log(`Server is now running on port ${PORT}`);

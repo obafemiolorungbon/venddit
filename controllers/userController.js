@@ -21,8 +21,9 @@ const sendEmail = require("../utils/emailSender");
 const findUser = require("../database/findUser");
 const unhashPassword = require("../lib/unHashPassword");
 const resetTokens = require("../lib/ResetTokens");
+const ApiError = require("../errors/ErrorObj");
 
-module.exports.Signup = async (req, res) => {
+module.exports.Signup = async (req, res,next) => {
  
   try {
     let response = await createUser(req, User);
@@ -33,8 +34,7 @@ module.exports.Signup = async (req, res) => {
       req
     );
      res.cookie("jwt", token,options);
-     console.log(token)
-    
+
     res.status(code).send({
       token,
       data:{
@@ -43,15 +43,14 @@ module.exports.Signup = async (req, res) => {
     }
     )
 } catch (err) {
-    console.log(`An error just occured ${err.message}`);
-    res.status(500).send({ message: err.message, reason: err.error });
+    next(err)
   }
 };
 
 
-module.exports.resetPassword = async (req, res) => {
+module.exports.resetPassword = async (req, res, next) => {
   try {
-    let result = await resetTokens(req.body.email, res, User, Tokens);
+    let result = await resetTokens(req.body.email, res, User, Tokens,next);
     await sendEmail(
       result.user.email,
       {
@@ -67,17 +66,16 @@ module.exports.resetPassword = async (req, res) => {
       .status(200)
       .send({ status: "success", message: "Password reset successful" });
   } catch (err) {
-    res.status(500).send({ status: "failed", err: err });
+    next(err)
   }
-  //logic for ressetting password here
 };
 
 
-module.exports.signIn = async (req, res) => {
+module.exports.signIn = async (req, res, next) => {
   try {
-    let queryResult = await findUser(User, req, res);
-    let UserAuth = await unhashPassword(req, queryResult);
-    if (UserAuth.response){
+    let queryResult = await findUser(User, req, next);
+    let UserAuth = await unhashPassword(req, queryResult,next);
+    if (UserAuth){
       const { token, options, code, user } = await tokenHelper.CreateAndSendToken(queryResult.user[0]._id,200,res,req)
       res.cookie("jwt", token, options);
       res.status(code).send({
@@ -88,24 +86,24 @@ module.exports.signIn = async (req, res) => {
     })
   }
   else{
-      res.status(403).send({message:"password incorrect, Kindly check", status:"failed"})
-    } 
+    next(ApiError.missingParams("Password incorrect, Kindly check"));
+  } 
   } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
+   next(err)
   }
 };
 
-module.exports.resetConfirm = async (req, res) => {
+module.exports.resetConfirm = async (req, res,next) => {
   try {
-    const tokenExist = await RetrieveToken(req.body.userId, Tokens, res);
-    const isValid = await VerifyToken(tokenExist, req.body.token);
+    const tokenExist = await RetrieveToken(req.body.userId, Tokens, res,next);
+    const isValid = await VerifyToken(tokenExist, req.body.token, next);
     const userInfo = await HashandSavePassword(
       isValid,
       User,
       res,
       req.body.userId,
-      req.body.password
+      req.body.password,
+      next
     );
     const { time, day } = await formatTime();
     await sendEmail(
@@ -123,8 +121,7 @@ module.exports.resetConfirm = async (req, res) => {
       message: "Your password has been reset successfully",
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
+    next(err)
   }
 };
 
@@ -133,7 +130,6 @@ module.exports.confirmUser = async (req,res) =>{
     //this is the route the front end will always hit to see if user has been set
     //as any user with cookies that contain jwt signed by this server is auth'ed
     let currentUser;
-    console.log(req.cookies)
     try{
         if (!req.cookies.jwt){
             currentUser = null
@@ -144,11 +140,9 @@ module.exports.confirmUser = async (req,res) =>{
         //get the user data associated with the Id and send it to the frontend
         currentUser = await User.findById(decoded.id)
         }
-        console.log(currentUser)
         res.status(200).send({currentUser})
     }catch(err){
-        console.log(err)
-        res.send(err.message)
+        next(err)
     }
 }
 
