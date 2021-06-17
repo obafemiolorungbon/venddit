@@ -22,10 +22,9 @@ const findUser = require("../database/findUser");
 const unhashPassword = require("../lib/unHashPassword");
 const resetTokens = require("../lib/ResetTokens");
 const ApiError = require("../errors/ErrorObj");
+const AsyncWrapper = require("../lib/asyncWrapper")
 
-module.exports.Signup = async (req, res,next) => {
- 
-  try {
+module.exports.Signup = AsyncWrapper(async (req, res,next) => {
     let response = await createUser(req, User);
     const { token, options, code, user } = await tokenHelper.CreateAndSendToken(
       response.account,
@@ -42,14 +41,10 @@ module.exports.Signup = async (req, res,next) => {
       }
     }
     )
-} catch (err) {
-    next(err)
-  }
-};
+});
 
 
-module.exports.resetPassword = async (req, res, next) => {
-  try {
+module.exports.resetPassword = AsyncWrapper(async (req, res, next) => {
     let result = await resetTokens(req.body.email, res, User, Tokens,next);
     await sendEmail(
       result.user.email,
@@ -65,14 +60,10 @@ module.exports.resetPassword = async (req, res, next) => {
     res
       .status(200)
       .send({ status: "success", message: "Password reset successful" });
-  } catch (err) {
-    next(err)
-  }
-};
+});
 
 
-module.exports.signIn = async (req, res, next) => {
-  try {
+module.exports.signIn = AsyncWrapper(async (req, res, next) => {
     let queryResult = await findUser(User, req, next);
     let UserAuth = await unhashPassword(req, queryResult,next);
     if (UserAuth){
@@ -88,13 +79,10 @@ module.exports.signIn = async (req, res, next) => {
   else{
     next(ApiError.missingParams("Password incorrect, Kindly check"));
   } 
-  } catch (err) {
-   next(err)
-  }
-};
+});
 
-module.exports.resetConfirm = async (req, res,next) => {
-  try {
+module.exports.resetConfirm = AsyncWrapper(async (req, res,next) => {
+
     const tokenExist = await RetrieveToken(req.body.userId, Tokens, res,next);
     const isValid = await VerifyToken(tokenExist, req.body.token, next);
     const userInfo = await HashandSavePassword(
@@ -120,17 +108,13 @@ module.exports.resetConfirm = async (req, res,next) => {
       status: "Success",
       message: "Your password has been reset successfully",
     });
-  } catch (err) {
-    next(err)
-  }
-};
+});
 
 
-module.exports.confirmUser = async (req,res) =>{
+module.exports.confirmUser = AsyncWrapper(async (req,res) =>{
     //this is the route the front end will always hit to see if user has been set
     //as any user with cookies that contain jwt signed by this server is auth'ed
     let currentUser;
-    try{
         if (!req.cookies.jwt){
             currentUser = null
         }else{
@@ -141,9 +125,6 @@ module.exports.confirmUser = async (req,res) =>{
         currentUser = await User.findById(decoded.id)
         }
         res.status(200).send({currentUser})
-    }catch(err){
-        next(err)
-    }
-}
+});
 
 module.exports.User = User
