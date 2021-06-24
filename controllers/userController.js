@@ -123,8 +123,20 @@ module.exports.confirmUser = AsyncWrapper(async (req,res) =>{
         const decoded = await tokenHelper.decode(token)
         //get the user data associated with the Id and send it to the frontend
         currentUser = await User.findById(decoded.id)
+
         }
         res.status(200).send({currentUser})
 });
+
+
+module.exports.logUserOut = AsyncWrapper(async(req,res) =>{
+  let currentUser=null
+  res.clearCookie("jwt")
+  res.status(200).send({
+    status:"sucess",
+    loggedOut:"true",
+    currentUser:currentUser
+  })
+})
 
 module.exports.User = User

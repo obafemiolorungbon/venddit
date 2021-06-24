@@ -19,4 +19,12 @@ router.post("/reset-confirm",formParser,userController.resetConfirm)
 
 router.get("/",userController.confirmUser)
 
+router.get("/logout", userController.logUserOut)
+
+
+//TODO
+// create a route that takes images blob, name of the image, the user from
+// cookies, the saves it in the Imagesdb to be retrieved by another route
+// later on
+
 module.exports = router

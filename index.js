@@ -1,10 +1,11 @@
 //Main entry point//
 const express = require("express");
 const morgan = require("morgan");
+const winston = require("winston")
 require("dotenv").config()
 const cookieParser = require("cookie-parser")
-const PORT = process.env.PORT||3001 
 const cors = require("cors");
+
 const app = express();
 app.use(
   cors({
@@ -12,6 +13,7 @@ app.use(
     origin: process.env.CLIENT_URL,
   })
 );
+winston.add(new winston.transports.File({filename:"errorLogger.log"}))
 app.use(cookieParser())
 app.use(express.urlencoded({extended:false}))
 //routers
@@ -24,10 +26,5 @@ app.use("/subscribed", suscribedRouter);
 app.use(morgan('dev')); 
 
 app.use(handleErrors)
-
-app.listen(PORT, ()=> {
-    console.log(`Server is now running on port ${PORT}`);
-});
-
 
 module.exports = app
