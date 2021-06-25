@@ -1,6 +1,5 @@
 //Main entry point//
 const express = require("express");
-const morgan = require("morgan");
 const winston = require("winston")
 require("dotenv").config()
 const cookieParser = require("cookie-parser")
@@ -22,8 +21,7 @@ app.use("/users", userRouter);
 const suscribedRouter = require("./routes/users/subscribe");
 const { handleErrors } = require("./errors/ErrorMiddleWare");
 app.use("/subscribed", suscribedRouter);
-//for request logging
-app.use(morgan('dev')); 
+//for request logging 
 
 app.use(handleErrors)
 
