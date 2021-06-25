@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 module.exports = (dbName) => {
     let remoteUrl = process.env.DB_URL
     //connect to active database
-    mongoose.connect(remoteUrl||`mongodb://localhost/${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(remoteUrl||`mongodb://localhost/${dbName}`, 
+    { useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        useCreateIndex:true
+     });
 
     //create schema
     const usersSchema = new mongoose.Schema({

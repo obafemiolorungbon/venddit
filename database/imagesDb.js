@@ -1,19 +1,6 @@
-// TODO
-// Create a database that will reference the user object. This db will save
-// the link of the images, the name of the image, short description as well 
-// as owner, author(user). 
-
 const mongoose = require("mongoose");
 
-module.exports = (dbName) => {
-  let remoteUrl = process.env.DB_URL;
-  //connect to active database
-  mongoose.connect(remoteUrl || `mongodb://localhost/${dbName}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  //create schema
+module.exports = () => {
   const imagesSchema = new mongoose.Schema({
     user: {
       type: mongoose.Schema.Types.ObjectID,

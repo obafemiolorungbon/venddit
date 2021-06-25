@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
-module.exports = (dbName)=>{
-     let remoteUrl = process.env.TOKEN_DB_URL
-    //connect to active database
-    mongoose.connect(remoteUrl||`mongodb://localhost/${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true });
+module.exports = ()=>{
 
     //create schema
     const tokenSchema = new mongoose.Schema({

@@ -21,7 +21,6 @@ app.use("/users", userRouter);
 const suscribedRouter = require("./routes/users/subscribe");
 const { handleErrors } = require("./errors/ErrorMiddleWare");
 app.use("/subscribed", suscribedRouter);
-//for request logging 
 
 app.use(handleErrors)
 

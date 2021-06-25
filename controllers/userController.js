@@ -5,9 +5,9 @@ const dbStructure = require("../database/modelStructure");
 const { dbName } = require("../lib/envConfig");
 const User = dbStructure(dbName);
 const tokenDB = require("../database/tokensDb");
-const Tokens = tokenDB(dbName);
+const Tokens = tokenDB();
 const imagesDB = require("../database/imagesDb");
-const Images = imagesDB(dbName);
+const Images = imagesDB();
 
 //other middlewares
 const {
