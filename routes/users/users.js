@@ -15,16 +15,15 @@ router.post("/reset-password",formParser, userController.resetPassword);
 
 router.post("/signin", formParser,userController.signIn);
 
-router.post("/reset-confirm",formParser,userController.resetConfirm)
+router.post("/reset-confirm",formParser,userController.resetConfirm);
 
-router.get("/",userController.confirmUser)
+router.get("/",userController.confirmUser);
 
-router.get("/logout", userController.logUserOut)
+router.get("/logout", userController.logUserOut);
 
+router.post("/image-upload",formParser, userController.saveImages);
 
-//TODO
-// create a route that takes images blob, name of the image, the user from
-// cookies, the saves it in the Imagesdb to be retrieved by another route
-// later on
+router.get("/get-images",userController.getImages);
+
 
 module.exports = router

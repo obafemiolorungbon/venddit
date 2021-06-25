@@ -9,7 +9,6 @@ module.exports = (req,model)=>{
         
         newUser.save((err, newUser) => {
             if (err) {
-                console.log(`An error occured when trying to save data ${err}`);
                 reject(err);
                 return
             }

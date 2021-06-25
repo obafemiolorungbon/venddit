@@ -6,6 +6,8 @@ const { dbName } = require("../lib/envConfig");
 const User = dbStructure(dbName);
 const tokenDB = require("../database/tokensDb");
 const Tokens = tokenDB(dbName);
+const imagesDB = require("../database/imagesDb");
+const Images = imagesDB(dbName);
 
 //other middlewares
 const {
@@ -23,6 +25,7 @@ const unhashPassword = require("../lib/unHashPassword");
 const resetTokens = require("../lib/ResetTokens");
 const ApiError = require("../errors/ErrorObj");
 const AsyncWrapper = require("../lib/asyncWrapper")
+const createNewImage = require("../database/createNewImage");
 
 module.exports.Signup = AsyncWrapper(async (req, res,next) => {
     let response = await createUser(req, User);
@@ -137,6 +140,22 @@ module.exports.logUserOut = AsyncWrapper(async(req,res) =>{
     loggedOut:"true",
     currentUser:currentUser
   })
+})
+
+
+module.exports.saveImages = AsyncWrapper(async(req,res)=>{
+  const clientJwt = req.cookies.jwt;
+  const clientID = await tokenHelper.decode(clientJwt);
+  const image = await createNewImage(req,Images,clientID.id);
+  res.status(201).send(image);
+})
+
+module.exports.getImages = AsyncWrapper(async(req,res)=>{
+  // TODO: Upon query, send the data to the front end from the images db
+    const clientJwt = req.cookies.jwt;
+    const clientID = await tokenHelper.decode(clientJwt);
+    const images = await Images.find({clientID}).lean()
+    res.status(200).send(images);
 })
 
 module.exports.User = User
