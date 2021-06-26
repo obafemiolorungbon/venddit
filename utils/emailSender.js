@@ -17,17 +17,14 @@ const SendEmail = (email,payload,subject,templateUrl)=>{
             const mailConfig = emailConfig.senderConfig(encodedData,payload,email,subject)
             transporter.sendMail(mailConfig(),(err, info)=>{
                 if (err){
-                    console.log(err.message)
                     reject(err)
                     return
                 }
-                console.log("Sent successfully")
-                resolve({status:"success"})
+                resolve({status:"success", result:info})
 
             })
         }catch(err){
             if(err){
-                console.log("Failed")
                 reject(err)
             }
         }

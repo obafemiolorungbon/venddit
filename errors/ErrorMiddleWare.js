@@ -5,7 +5,6 @@ module.exports.handleErrors = (err,req,res,next) =>{
     //check to ensure that error thrown was as a result of your custom error object, meaning
     //errror meesage can be safely returned. 
     if (err instanceof ApiError){
-        winston.error(err.message)
         res.status(err.code)
         res.send({
             status:"failed",

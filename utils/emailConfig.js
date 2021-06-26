@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-
 module.exports.transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: 465,
@@ -13,6 +12,7 @@ module.exports.transporter = nodemailer.createTransport({
     refreshToken: process.env.REFRESH_TOKENS,
   },
 });
+
 module.exports.senderConfig = (encodedData, payload, email, subject) => {
   return congfig = ()=>{ 
       return {
