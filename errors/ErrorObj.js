@@ -32,6 +32,10 @@ class ApiError extends Error{
         return new ApiError(401, msg)
     }
 
+    static NotFoundError(){
+        return new ApiError( 404, "You've tried to reach a non-existing route, Kindly contact the developer." )
+    }
+
 }
 
 module.exports = ApiError;

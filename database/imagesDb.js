@@ -29,7 +29,7 @@ module.exports = () => {
         expires: 360,
       },
     });
-    let images = mongoose.model("test", imagesSchema);
+    let images = mongoose.model("image", imagesSchema);
     return images;
   } else {
     let images = mongoose.model("image", imagesSchema);

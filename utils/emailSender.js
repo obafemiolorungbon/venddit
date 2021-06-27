@@ -4,7 +4,6 @@ const path = require("path");
 require("dotenv").config();
 const emailConfig = require("./emailConfig")
 
-
 // Function to send email to user requesting password reset
 // uses 3LO to authenthicate gmail API service
 const SendEmail = (email,payload,subject,templateUrl)=>{
@@ -20,7 +19,7 @@ const SendEmail = (email,payload,subject,templateUrl)=>{
                     reject(err)
                     return
                 }
-                resolve({status:"success", result:info})
+                resolve("success")
 
             })
         }catch(err){

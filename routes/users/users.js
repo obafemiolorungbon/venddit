@@ -9,7 +9,7 @@ const alreadyExists = require("../../lib/alreadyReg");
 
 //Dont forget that validationRules is a function that returns, so must be called inside the route
 const userController = require("../../controllers/userController")
-router.post('/signup', formParser,validationRules(),validation,alreadyExists(userController.User),hashPassword,userController.Signup);
+router.post('/signup', formParser , validationRules(),validation,alreadyExists(userController.User),hashPassword,userController.Signup);
  
 router.post("/reset-password",formParser, userController.resetPassword);
 

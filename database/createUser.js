@@ -1,3 +1,11 @@
+/**
+ * create new user instance and save in the model
+ * @param { Object } req express request object 
+ * @param { Object } model MongoDb database Object 
+ * @returns { Object } containing a success message as well as the new account
+ * 
+ */
+
 module.exports = (req,model)=>{
     return new Promise((resolve,reject)=>{
         const newUser = new model({

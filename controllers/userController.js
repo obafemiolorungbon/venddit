@@ -13,7 +13,8 @@ const Images = imagesDB();
 const {
   RetrieveToken,
   VerifyToken,
-  HashandSavePassword,
+  HashNewPassword,
+  replacePassword,
   CleanUp,
 } = require("../lib/ResetPassword");
 
@@ -22,25 +23,28 @@ const formatTime = require("../lib/formatTime");
 const sendEmail = require("../utils/emailSender");
 const findUser = require("../database/findUser");
 const unhashPassword = require("../lib/unHashPassword");
-const resetTokens = require("../lib/ResetTokens");
+const {
+  createResetLink,
+  saveResetToken,
+  hashData,
+  generateToken
+} = require("../lib/ResetTokens");
 const ApiError = require("../errors/ErrorObj");
 const AsyncWrapper = require("../lib/asyncWrapper")
 const createNewImage = require("../database/createNewImage");
 
-module.exports.Signup = AsyncWrapper(async (req, res,next) => {
+module.exports.Signup = AsyncWrapper(async (req, res, next) => {
     let response = await createUser(req, User);
-    const { token, options, code, user } = await tokenHelper.CreateAndSendToken(
-      response.account,
-      201,
-      res,
+    let createdUser = response.account
+    const { token, options } = await tokenHelper.CreateAndSendToken(
+     createdUser,
       req
     );
-     res.cookie("jwt", token,options);
+    res.cookie( "jwt", token , options );
 
-    res.status(code).send({
-      token,
+    res.status(201).send({
       data:{
-        user
+        response
       }
     }
     )
@@ -48,13 +52,19 @@ module.exports.Signup = AsyncWrapper(async (req, res,next) => {
 
 
 module.exports.resetPassword = AsyncWrapper(async (req, res, next) => {
-    let result = await resetTokens(req.body.email, res, User, Tokens,next);
+    const userData = await findUser( User, req, next );
+    const extractedToken = await RetrieveToken( userData._id, Tokens);
+    let _ = await CleanUp(extractedToken);
+    const newTokenHex = await generateToken();
+    const hashedToken = await hashData(newTokenHex);
+    const tokenObject = await saveResetToken( hashedToken, userData._id, Tokens );
+    const resetLink = await createResetLink( newTokenHex, tokenObject );
     await sendEmail(
-      result.user.email,
+      userData.email,
       {
-        name: result.user.businessName,
-        link: result.link,
-        email: result.user.email,
+        name: userData.businessName,
+        link: resetLink,
+        email: userData.email,
         homeLink: process.env.CLIENT_URL,
       },
       "Password Reset Request",
@@ -65,19 +75,18 @@ module.exports.resetPassword = AsyncWrapper(async (req, res, next) => {
       .send({ status: "success", message: "Password reset successful" });
 });
 
-
 module.exports.signIn = AsyncWrapper(async (req, res, next) => {
-    let queryResult = await findUser(User, req, next);
-    let UserAuth = await unhashPassword(req, queryResult,next);
+    let userHashedPasswordAndId = await findUser(User, req, next );
+    let UserAuth = await unhashPassword( req, userHashedPasswordAndId , next );
     if (UserAuth){
-      const { token, options, code, user } = await tokenHelper.CreateAndSendToken(queryResult.user[0]._id,200,res,req)
+      const { 
+        token, 
+        options 
+      } = await tokenHelper.CreateAndSendToken( userHashedPasswordAndId, req )
       res.cookie("jwt", token, options);
-      res.status(code).send({
-      token,
-      data:{
-        user
-      }
-    })
+      res.status(200).send({
+        status:"success"
+      })
   }
   else{
     next(ApiError.missingParams("Password incorrect, Kindly check"));
@@ -85,20 +94,17 @@ module.exports.signIn = AsyncWrapper(async (req, res, next) => {
 });
 
 module.exports.resetConfirm = AsyncWrapper(async (req, res,next) => {
-
-    const tokenExist = await RetrieveToken(req.body.userId, Tokens, res,next);
-    const isValid = await VerifyToken(tokenExist, req.body.token, next);
-    const userInfo = await HashandSavePassword(
-      isValid,
-      User,
-      res,
-      req.body.userId,
-      req.body.password,
+    const extractedToken = await RetrieveToken ( req.body.userId, Tokens );
+    const isTokenValid = await VerifyToken(
+      extractedToken,
+      req.body.token,
       next
-    );
+    )
+    const hashedNewPassword = await HashNewPassword ( req.body.password, isTokenValid, next );
+    const updatedDoc = await replacePassword( User, req.body.userId, hashedNewPassword );
     const { time, day } = await formatTime();
-    await sendEmail(
-      userInfo.email,
+    const { status } = await sendEmail(
+      updatedDoc.email,
       {
         time: time,
         date: day,
@@ -106,13 +112,12 @@ module.exports.resetConfirm = AsyncWrapper(async (req, res,next) => {
       "Password Reset Success",
       "./resetSuccess.handlebars"
     );
-    await CleanUp(tokenExist);
+    await CleanUp(extractedToken);
     res.send({
       status: "Success",
       message: "Your password has been reset successfully",
     });
 });
-
 
 module.exports.confirmUser = AsyncWrapper(async (req,res) =>{
     //this is the route the front end will always hit to see if user has been set
@@ -123,25 +128,23 @@ module.exports.confirmUser = AsyncWrapper(async (req,res) =>{
         }else{
           //get the jwt from the cookie
         const token = req.cookies.jwt;
-        const decoded = await tokenHelper.decode(token)
+        const secret = process.env.secretKey;
+        const decoded = await tokenHelper.decode(token,secret)
         //get the user data associated with the Id and send it to the frontend
         currentUser = await User.findById(decoded.id)
-
         }
         res.status(200).send({currentUser})
 });
-
 
 module.exports.logUserOut = AsyncWrapper(async(req,res) =>{
   let currentUser=null
   res.clearCookie("jwt")
   res.status(200).send({
-    status:"sucess",
+    status:"success",
     loggedOut:"true",
     currentUser:currentUser
   })
 })
-
 
 module.exports.saveImages = AsyncWrapper(async(req,res)=>{
   const clientJwt = req.cookies.jwt;
