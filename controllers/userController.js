@@ -1,5 +1,13 @@
 const createUser = require("../database/createUser");
 
+//dependencies
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+
+// env variables 
+const secret = process.env.secretKey;
+
 //database imports
 const dbStructure = require("../database/modelStructure");
 const { dbName } = require("../lib/envConfig");
@@ -37,6 +45,7 @@ module.exports.Signup = AsyncWrapper(async (req, res, next) => {
     let response = await createUser(req, User);
     let createdUser = response.account
     const { token, options } = await tokenHelper.CreateAndSendToken(
+      jwt,
      createdUser,
       req
     );
@@ -55,7 +64,7 @@ module.exports.resetPassword = AsyncWrapper(async (req, res, next) => {
     const userData = await findUser( User, req, next );
     const extractedToken = await RetrieveToken( userData._id, Tokens);
     let _ = await CleanUp(extractedToken);
-    const newTokenHex = await generateToken();
+    const newTokenHex = await generateToken( crypto );
     const hashedToken = await hashData(newTokenHex);
     const tokenObject = await saveResetToken( hashedToken, userData._id, Tokens );
     const resetLink = await createResetLink( newTokenHex, tokenObject );
@@ -82,7 +91,7 @@ module.exports.signIn = AsyncWrapper(async (req, res, next) => {
       const { 
         token, 
         options 
-      } = await tokenHelper.CreateAndSendToken( userHashedPasswordAndId, req )
+      } = await tokenHelper.CreateAndSendToken( jwt, userHashedPasswordAndId, req )
       res.cookie("jwt", token, options);
       res.status(200).send({
         status:"success"
@@ -98,11 +107,13 @@ module.exports.resetConfirm = AsyncWrapper(async (req, res,next) => {
     const isTokenValid = await VerifyToken(
       extractedToken,
       req.body.token,
-      next
+      next,
+      bcrypt,
+      ApiError
     )
-    const hashedNewPassword = await HashNewPassword ( req.body.password, isTokenValid, next );
+    const hashedNewPassword = await HashNewPassword ( req.body.password, isTokenValid, next, bcrypt, ApiError );
     const updatedDoc = await replacePassword( User, req.body.userId, hashedNewPassword );
-    const { time, day } = await formatTime();
+    const { time, day } = await formatTime(new Date(Date.now()));
     const { status } = await sendEmail(
       updatedDoc.email,
       {
@@ -128,8 +139,7 @@ module.exports.confirmUser = AsyncWrapper(async (req,res) =>{
         }else{
           //get the jwt from the cookie
         const token = req.cookies.jwt;
-        const secret = process.env.secretKey;
-        const decoded = await tokenHelper.decode(token,secret)
+        const decoded = await tokenHelper.decode( token, secret, jwt )
         //get the user data associated with the Id and send it to the frontend
         currentUser = await User.findById(decoded.id)
         }
@@ -148,7 +158,7 @@ module.exports.logUserOut = AsyncWrapper(async(req,res) =>{
 
 module.exports.saveImages = AsyncWrapper(async(req,res)=>{
   const clientJwt = req.cookies.jwt;
-  const clientID = await tokenHelper.decode(clientJwt);
+  const clientID = await tokenHelper.decode( clientJwt, );
   const image = await createNewImage(req,Images,clientID.id);
   res.status(201).send(image);
 })
@@ -156,7 +166,7 @@ module.exports.saveImages = AsyncWrapper(async(req,res)=>{
 module.exports.getImages = AsyncWrapper(async(req,res)=>{
   // TODO: Upon query, send the data to the front end from the images db
     const clientJwt = req.cookies.jwt;
-    const clientID = await tokenHelper.decode(clientJwt);
+    const clientID = await tokenHelper.decode( clientJwt, secret, jwt );
     const images = await Images.find({clientID}).lean()
     res.status(200).send(images);
 })
