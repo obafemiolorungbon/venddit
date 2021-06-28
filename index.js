@@ -8,28 +8,28 @@ const cors = require("cors");
 const fs = require("fs");
 const ApiError = require("./errors/ErrorObj");
 // cron job to send error logs every 72Hrs
-// const cron = require("node-cron");
-// const errorMailer = require("./lib/sendErrorLogsViaEmail")
+const cron = require("node-cron");
+const errorMailer = require("./lib/sendErrorLogsViaEmail")
 
-// cron.schedule('* * */3 * *', async () =>{
-//   // send content of the Error Log createdBy Winston
-//   try{
-//     let pathToLoggerFile = path.join(__dirname,"errorLogger.log")
-//     const { status} = await errorMailer.SendErrorLogsByEmail(pathToLoggerFile);
-//     // perform log clean up if email succeeds
-//     if(status === "success"){
-//       fs.unlink(pathToLoggerFile, err => {
-//         if (err){
-//           winston.error(err);
-//           return
-//         }
-//       })
-//       return
-//     }
-//   }catch(err){
-//     winston.error(err);
-//   }
-// })
+cron.schedule('* * */3 * *', async () =>{
+  // send content of the Error Log createdBy Winston
+  try{
+    let pathToLoggerFile = path.join(__dirname,"errorLogger.log")
+    const { status} = await errorMailer.SendErrorLogsByEmail(pathToLoggerFile);
+    // perform log clean up if email succeeds
+    if(status === "success"){
+      fs.unlink(pathToLoggerFile, err => {
+        if (err){
+          winston.error(err);
+          return
+        }
+      })
+      return
+    }
+  }catch(err){
+    winston.error(err);
+  }
+});
 
 const app = express();
 
