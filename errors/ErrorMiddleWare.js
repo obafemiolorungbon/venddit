@@ -1,7 +1,16 @@
 const ApiError = require("./ErrorObj")
 const winston = require("winston")
 
-module.exports.handleErrors = (err,req,res,next) =>{
+/**
+ * Express Error Handler
+ * @param { Object } err Error Object 
+ * @param { Object } req Express request Object
+ * @param { Function } res express response function
+ * @param { Object } next Express next function
+ * @returns 
+ */
+
+module.exports.handleErrors = ( err, req, res, next ) =>{
     //check to ensure that error thrown was as a result of your custom error object, meaning
     //errror meesage can be safely returned. 
     if (err instanceof ApiError){

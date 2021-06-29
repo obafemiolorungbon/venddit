@@ -1,0 +1,35 @@
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error","message":"Cannot read property 'hash' of undefined Cannot read property 'hash' of undefined","stack":"TypeError: Cannot read property 'hash' of undefined\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetTokens.js:29:12\n    at new Promise (<anonymous>)\n    at hashData (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetTokens.js:28:10)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:73:31\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error","message":"Cannot read property 'hash' of undefined Cannot read property 'hash' of undefined","stack":"TypeError: Cannot read property 'hash' of undefined\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetTokens.js:29:12\n    at new Promise (<anonymous>)\n    at hashData (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetTokens.js:28:10)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:73:31\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error","message":"data and salt arguments required data and salt arguments required","stack":"Error: data and salt arguments required\n    at Object.hash (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\bcrypt\\bcrypt.js:137:17)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:66:16\n    at new Promise (<anonymous>)\n    at HashNewPassword (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:60:12)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:128:37\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"level":"error","message":"data and salt arguments required data and salt arguments required","stack":"Error: data and salt arguments required\n    at Object.hash (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\bcrypt\\bcrypt.js:137:17)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:66:16\n    at new Promise (<anonymous>)\n    at HashNewPassword (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:60:12)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:128:37\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"level":"error","message":"data and hash arguments required data and hash arguments required","stack":"Error: data and hash arguments required\n    at Object.compare (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\bcrypt\\bcrypt.js:208:17)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:39:16\n    at new Promise (<anonymous>)\n    at VerifyToken (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:30:12)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:121:32\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"level":"error","message":"data and hash arguments required data and hash arguments required","stack":"Error: data and hash arguments required\n    at Object.compare (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\bcrypt\\bcrypt.js:208:17)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:39:16\n    at new Promise (<anonymous>)\n    at VerifyToken (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\ResetPassword.js:30:12)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\controllers\\userController.js:121:32\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)\n    at async C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\asyncWrapper.js:10:13"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}

@@ -63,7 +63,7 @@ describe("Test all functions in the lib folder",()=>{
         it("should hash data passed to it using crypto", async ()=>{
             let data = "1";
             let salt = 10;
-            let hashedData = await resetTokens.hashData( data, salt, bcrypt);
+            let hashedData = await resetTokens.hashData( data, bcrypt, salt);
             expect(hashedData).not.toBeNull();
             expect(hashedData).not.toBeUndefined();
         });

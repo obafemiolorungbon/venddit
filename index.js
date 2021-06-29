@@ -1,8 +1,8 @@
 //Main entry point//
+require("dotenv").config()
 const express = require("express");
 const winston = require("winston")
 const path = require("path");
-require("dotenv").config()
 const cookieParser = require("cookie-parser")
 const cors = require("cors");
 const fs = require("fs");
@@ -10,12 +10,15 @@ const ApiError = require("./errors/ErrorObj");
 // cron job to send error logs every 72Hrs
 const cron = require("node-cron");
 const errorMailer = require("./lib/sendErrorLogsViaEmail")
+const emailConfig = require("./utils/emailConfig");
+const formatTime = require("./lib/formatTime");
+
 
 cron.schedule('* * */3 * *', async () =>{
   // send content of the Error Log createdBy Winston
   try{
     let pathToLoggerFile = path.join(__dirname,"errorLogger.log")
-    const { status} = await errorMailer.SendErrorLogsByEmail(pathToLoggerFile);
+    const { status} = await errorMailer.SendErrorLogsByEmail( pathToLoggerFile, emailConfig, formatTime  );
     // perform log clean up if email succeeds
     if(status === "success"){
       fs.unlink(pathToLoggerFile, err => {
@@ -49,7 +52,7 @@ const suscribedRouter = require("./routes/users/subscribe");
 const { handleErrors } = require("./errors/ErrorMiddleWare");
 app.use("/users", userRouter);
 app.use("/subscribed", suscribedRouter);
-app.use("*", (req,res,next) =>{
+app.use("*", (req, res , next) =>{
   next(ApiError.NotFoundError());
 })
 app.use(handleErrors)

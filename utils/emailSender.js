@@ -1,34 +1,46 @@
-const handlebars = require("handlebars");//for creating email templates
-const fs = require("fs");
-const path = require("path");
+
 require("dotenv").config();
-const emailConfig = require("./emailConfig")
 
-// Function to send email to user requesting password reset
-// uses 3LO to authenthicate gmail API service
-const SendEmail = (email,payload,subject,templateUrl)=>{
-    return new Promise((resolve,reject)=>{
-        try{
-            const transporter = emailConfig.transporter
-            //template represents handlebars compiled for sending mails
-            const template = fs.readFileSync(path.join(__dirname,templateUrl),"utf8") 
-            const encodedData = handlebars.compile(template)
-            const mailConfig = emailConfig.senderConfig(encodedData,payload,email,subject)
-            transporter.sendMail(mailConfig(),(err, info)=>{
-                if (err){
-                    reject(err)
-                    return
-                }
-                resolve("success")
+/**
+ * compiles data into handlebars function 
+ * @param { String } templateUrl file URL to template files 
+ * @param { Module } fs the node fs module
+ * @param { Module } handlebars the handlebars module
+ * @param { Module } path the nodejs path module
+ * @returns  { Promise } handlebars function that takes in context and compiles
+ */
 
-            })
-        }catch(err){
-            if(err){
-                reject(err)
+const compileTemplate = ( templateUrl, fs, handlebars, path ) => {
+    return new Promise(( resolve, reject) =>{
+        fs.readFile(path.join(__dirname, templateUrl), "utf8", ( err, data ) =>{
+            if ( err ){
+                reject(err);
+                return
             }
-        }
-    })
+            const compiledData = handlebars.compile(data);
+            resolve(compiledData); 
 
+        }); 
+   })
+};
+
+/**
+ * sends email to client using mail configurations
+ * @param { Object } mailConfig Object containing config for nodemailer transporter
+ * @param { Function } transporter nodemailer transporter function
+ * @returns { Promise } function to send email to user
+ */
+
+const SendEmail = ( mailConfig, transporter ) => {
+    return new Promise((resolve,reject)=>{
+        transporter.sendMail( mailConfig() , (err, info) =>{
+            if (err){
+                reject(err);
+                return
+            }
+            resolve("success");
+        });
+    });
 }
 
-module.exports = SendEmail
+module.exports = { SendEmail, compileTemplate }
