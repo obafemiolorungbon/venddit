@@ -33,3 +33,98 @@
 {"message":"Server started up successfully on 3001","level":"info"}
 {"message":"Server started up successfully on 3001","level":"info"}
 {"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"errno":-3008,"code":"EDNS","syscall":"getaddrinfo","hostname":"smtp.gmail.com","command":"CONN","level":"error","message":"getaddrinfo ENOTFOUND smtp.gmail.com getaddrinfo ENOTFOUND smtp.gmail.com","stack":"Error: getaddrinfo ENOTFOUND smtp.gmail.com\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"missing content-type header missing content-type header","level":"error","stack":"UnsupportedMediaTypeError: missing content-type header\n    at Form.parse (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\multiparty\\index.js:162:21)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\formParser.js:13:10\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at Route.dispatch (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:112:3)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:281:22\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at Function.handle (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:174:3)\n    at router (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:317:13)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:284:7\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error","message":"next.toSource is not a function next.toSource is not a function","stack":"TypeError: next.toSource is not a function\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\formParser.js:12:22\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at Route.dispatch (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:112:3)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:281:22\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at Function.handle (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:174:3)\n    at router (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:317:13)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:284:7\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at urlencodedParser (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\body-parser\\lib\\types\\urlencoded.js:100:7)"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error","message":"next.toSource is not a function next.toSource is not a function","stack":"TypeError: next.toSource is not a function\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\lib\\formParser.js:14:22\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at Route.dispatch (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\route.js:112:3)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:281:22\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at Function.handle (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:174:3)\n    at router (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:317:13)\n    at C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:284:7\n    at Function.process_params (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at urlencodedParser (C:\\Users\\Joe\\Desktop\\WebApps\\SnappyBack\\node_modules\\body-parser\\lib\\types\\urlencoded.js:100:7)"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
+{"message":"Server started up successfully on 3001","level":"info"}
