@@ -63,7 +63,7 @@ describe("Integration TESTS", ()=>{
     });
 
 
-    describe.skip(" POST ROUTES", ()=>{
+    describe(" POST ROUTES", ()=>{
          describe("POST REQUEST TO /USERS", () => {
            let businessName = "sample1";
            let email = "sampleemail@gmail.com";
