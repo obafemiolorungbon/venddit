@@ -10,9 +10,11 @@ const fs = require("fs");
 const nodemailer = require("nodemailer");
 const emailSender = require("../utils/emailConfig");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 // env variables 
 const secret = process.env.secretKey;
+const jwtExpires = process.env.jwtExpires;
 
 //database imports
 const dbStructure = require("../database/modelStructure");
@@ -52,7 +54,9 @@ module.exports.Signup = AsyncWrapper(async (req, res, next) => {
     const { token, options } = await tokenHelper.CreateAndSendToken(
       jwt,
      createdUser,
-      req
+      req,
+      secret,
+      jwtExpires
     );
     res.cookie( "jwt", token , options );
 
@@ -105,7 +109,7 @@ module.exports.signIn = AsyncWrapper(async (req, res, next) => {
       const { 
         token, 
         options 
-      } = await tokenHelper.CreateAndSendToken( jwt, userHashedPasswordAndId, req )
+      } = await tokenHelper.CreateAndSendToken( jwt, userHashedPasswordAndId, req, secret, jwtExpires )
       res.cookie("jwt", token, options);
       res.status(200).send({
         status:"success"
