@@ -17,10 +17,10 @@ describe("Integration TESTS", ()=>{
         app.job.stop();
         done();
         });
-       });
+       },10);
     describe("GET ROUTES", ()=>{
         describe(" * REQUEST TO NON EXISTING ROUTES", ()=>{
-            let invalidRequest = "localhost:3000/someInvalidRoute"   
+            let invalidRequest = "/someInvalidRoute"   
             it("Should return a 404 Error status code", async ()=>{
                let res =  await request(app).get(invalidRequest);
                expect(res.statusCode).toEqual(404);
