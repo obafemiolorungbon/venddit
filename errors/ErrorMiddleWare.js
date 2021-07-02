@@ -24,6 +24,8 @@ module.exports.handleErrors = ( err, req, res, next ) =>{
     //if it does not match, it means the error was thrown by nodejs and is unsafe to 
     //reveal the message to the user
     winston.error(err.message, err)
+    console.log(err)
+    console.log(err.message)
     res.status(500);
     res.send({
         status:"failed",
