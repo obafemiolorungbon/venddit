@@ -74,7 +74,7 @@ describe("Integration TESTS", ()=>{
                userController.User.collection.deleteMany({});
              });
 
-             it.skip("should return a 201 from a valid request", async () => {
+             it("should return a 201 from a valid request", async () => {
                const res = await request(app)
                  .post("/users/signup")
                  .field("businessName", businessName)
@@ -84,7 +84,7 @@ describe("Integration TESTS", ()=>{
                expect(res.statusCode).toEqual(201);
              });
 
-             it.skip("should return a json object with registered user object", async () => {
+             it("should return a json object with registered user object", async () => {
                const res = await request(app)
                  .post("/users/signup")
                  .field("businessName", businessName)
@@ -127,14 +127,14 @@ describe("Integration TESTS", ()=>{
              afterEach(() => {
                userController.User.collection.deleteMany({});
              });
-             it.skip("should return a 200 if credential pass authenthication", async () => {
+             it("should return a 200 if credential pass authenthication", async () => {
                const res = await request(app)
                  .post("/users/signin")
                  .field("email", "sampleemail@gmail.com")
                  .field("password", "samplePassword");
                expect(res.statusCode).toEqual(200);
              });
-             it.skip("should return a success json object of credential pass", async () => {
+             it("should return a success json object of credential pass", async () => {
                const res = await request(app)
                  .post("/users/signin")
                  .field("email", "sampleemail@gmail.com")
