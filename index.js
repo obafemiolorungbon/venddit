@@ -7,11 +7,17 @@ const cookieParser = require("cookie-parser")
 const cors = require("cors");
 const fs = require("fs");
 const ApiError = require("./errors/ErrorObj");
+const mongoose = require("mongoose");
 // cron job to send error logs every 72Hrs
 const cron = require("node-cron");
 const errorMailer = require("./lib/sendErrorLogsViaEmail")
 const emailConfig = require("./utils/emailConfig");
 const formatTime = require("./lib/formatTime");
+
+// database connection
+const { dbName } = require("./lib/envConfig");
+const connectToDb = require("./database/connectDB");
+const db = connectToDb(mongoose, dbName);
 
 
 cron.schedule('* * */3 * *', async () =>{
@@ -58,3 +64,4 @@ app.use("*", (req, res , next) =>{
 app.use(handleErrors)
 
 module.exports = app
+module.exports.db = db

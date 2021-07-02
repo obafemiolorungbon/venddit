@@ -9,18 +9,18 @@ const path = require("path");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
 const emailSender = require("../utils/emailConfig");
+const mongoose = require("mongoose");
 
 // env variables 
 const secret = process.env.secretKey;
 
 //database imports
 const dbStructure = require("../database/modelStructure");
-const { dbName } = require("../lib/envConfig");
-const User = dbStructure(dbName);
+const User = dbStructure( mongoose );
 const tokenDB = require("../database/tokensDb");
-const Tokens = tokenDB();
+const Tokens = tokenDB( mongoose );
 const imagesDB = require("../database/imagesDb");
-const Images = imagesDB();
+const Images = imagesDB( mongoose );
 
 //other middlewares
 const {
@@ -112,7 +112,7 @@ module.exports.signIn = AsyncWrapper(async (req, res, next) => {
       })
   }
   else{
-    next(ApiError.missingParams("Password incorrect, Kindly check"));
+    next(ApiError.unAuthorized("Password incorrect, Kindly check"));
   } 
 });
 
@@ -187,3 +187,5 @@ module.exports.getImages = AsyncWrapper(async(req,res)=>{
 })
 
 module.exports.User = User
+module.exports.Token = Tokens
+module.exports.Images = Images

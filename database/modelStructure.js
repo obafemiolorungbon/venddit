@@ -1,16 +1,5 @@
-const mongoose = require('mongoose');
-
-module.exports = (dbName) => {
-    let remoteUrl = process.env.DB_URL
-    //connect to active database
-    mongoose.connect(remoteUrl || `mongodb://localhost/${dbName}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify:false,
-    });
-
-    //create schema
+module.exports = ( mongoose ) => {
+   //create schema
     const usersSchema = new mongoose.Schema({
         businessName: { type: String, required: ["Business name cannot be omitted", true] },
         productName: { type: String, required: ["Product name must be provided", true] },

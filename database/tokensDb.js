@@ -1,6 +1,4 @@
-const mongoose = require("mongoose");
-
-module.exports = ()=>{
+module.exports = ( mongoose )=>{
 
     //create schema
     const tokenSchema = new mongoose.Schema({
