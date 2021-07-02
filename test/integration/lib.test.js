@@ -60,87 +60,96 @@ describe("Integration TESTS", ()=>{
             });
         });
 
-        describe("POST REQUEST TO /USERS", ()=>{
-            let businessName =  "sample1";
-            let email = "sampleemail@gmail.com";
-            let password = "samplePassword";
-            let productName = "sampleProduct";
-            describe("/SIGNUP",()=>{
-                afterEach(() =>{
-                    userController.User.collection.deleteMany({});
-                });
-
-                it("should return a 201 from a valid request", async()=>{
-                    const res = await request(app).post("/users/signup")
-                    .field("businessName", businessName)
-                    .field("productName", productName)
-                    .field("email", email)
-                    .field("password", password)
-                    expect(res.statusCode).toEqual(201);
-                });
-
-                it("should return a json object with registered user object", async ()=>{
-                    const res = await request(app)
-                      .post("/users/signup")
-                      .field("businessName", businessName)
-                      .field("productName", productName)
-                      .field("email", email)
-                      .field("password", password);
-                    expect(res.body.data).toHaveProperty("response.message","Account registration successful");
-                    expect(res.body.data).toHaveProperty("response.account.productName", productName);
-                    expect(res.body.data).toHaveProperty("response.account.email",email);
-                });
-
-                it ("should return a 422 if request missing fields", async()=>{
-                    const res = await request(app)
-                      .post("/users/signup")
-                      .field("email", email)
-                      .field("password", password);
-                      expect(res.statusCode).toEqual(422);
-                });
-            });
-            describe("/SIGNIN",()=>{
-                beforeEach(async ()=>{
-                    const password = await bcrypt.hash("samplePassword",10);
-                    await userController.User.collection.insertOne({
-                      businessName: "SampleEmail",
-                      productName: "sampleProductName",
-                      email: "sampleemail@gmail.com",
-                      password: password,
-                    });
-                })
-
-                afterEach(()=>{
-                    userController.User.collection.deleteMany({});
-                })
-                it("should return a 200 if credential pass authenthication", async ()=>{
-                    const res = await request(app)
-                    .post("/users/signin")
-                    .field("email", "sampleemail@gmail.com")
-                    .field("password", "samplePassword");
-                expect(res.statusCode).toEqual(200);
-                });
-                it("should return a success json object of credential pass",  async ()=>{
-                    const res = await request(app)
-                      .post("/users/signin")
-                      .field("email", "sampleemail@gmail.com")
-                      .field("password", "samplePassword");
-                    expect(res.body).toHaveProperty("status", "success");
-                });
-                it("should return a 401 if request fails authenthication",  async ()=>{
-                    const res = await request(app)
-                    .post("/users/signin")
-                    .field("email", "sampleemail@gmail.com")
-                    .field("password", "wrongPassword");
-                    expect(res.statusCode).toEqual(401);
-                });
-
-            })
-        });
     });
 
 
     describe(" POST ROUTES", ()=>{
+         describe("POST REQUEST TO /USERS", () => {
+           let businessName = "sample1";
+           let email = "sampleemail@gmail.com";
+           let password = "samplePassword";
+           let productName = "sampleProduct";
+           describe("/SIGNUP", () => {
+             afterEach(() => {
+               userController.User.collection.deleteMany({});
+             });
+
+             it("should return a 201 from a valid request", async () => {
+               const res = await request(app)
+                 .post("/users/signup")
+                 .field("businessName", businessName)
+                 .field("productName", productName)
+                 .field("email", email)
+                 .field("password", password);
+               expect(res.statusCode).toEqual(201);
+             });
+
+             it("should return a json object with registered user object", async () => {
+               const res = await request(app)
+                 .post("/users/signup")
+                 .field("businessName", businessName)
+                 .field("productName", productName)
+                 .field("email", email)
+                 .field("password", password);
+               expect(res.body.data).toHaveProperty(
+                 "response.message",
+                 "Account registration successful"
+               );
+               expect(res.body.data).toHaveProperty(
+                 "response.account.productName",
+                 productName
+               );
+               expect(res.body.data).toHaveProperty(
+                 "response.account.email",
+                 email
+               );
+             });
+
+             it("should return a 422 if request missing fields", async () => {
+               const res = await request(app)
+                 .post("/users/signup")
+                 .field("email", email)
+                 .field("password", password);
+               expect(res.statusCode).toEqual(422);
+             });
+           });
+           describe("/SIGNIN", () => {
+             beforeEach(async () => {
+               const password = await bcrypt.hash("samplePassword", 10);
+               await userController.User.collection.insertOne({
+                 businessName: "SampleEmail",
+                 productName: "sampleProductName",
+                 email: "sampleemail@gmail.com",
+                 password: password,
+               });
+             });
+
+             afterEach(() => {
+               userController.User.collection.deleteMany({});
+             });
+             it("should return a 200 if credential pass authenthication", async () => {
+               const res = await request(app)
+                 .post("/users/signin")
+                 .field("email", "sampleemail@gmail.com")
+                 .field("password", "samplePassword");
+               expect(res.statusCode).toEqual(200);
+             });
+             it("should return a success json object of credential pass", async () => {
+               const res = await request(app)
+                 .post("/users/signin")
+                 .field("email", "sampleemail@gmail.com")
+                 .field("password", "samplePassword");
+               expect(res.body).toHaveProperty("status", "success");
+             });
+             it("should return a 401 if request fails authenthication", async () => {
+               const res = await request(app)
+                 .post("/users/signin")
+                 .field("email", "sampleemail@gmail.com")
+                 .field("password", "wrongPassword");
+               expect(res.statusCode).toEqual(401);
+             });
+           });
+         });
     });
 
     describe(" PUT ROUTES", ()=>{

@@ -6,6 +6,10 @@
   "directories": {
     "lib": "lib"
   },
+  "jest":{
+    "verbose":true,
+    "testTimeout":10000
+  },
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
