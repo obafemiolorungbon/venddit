@@ -14,6 +14,7 @@ describe("Integration TESTS", ()=>{
        server.close(() => {
          app.db.close( (err) => {
         });
+        app.job.stop();
         done();
         });
        });

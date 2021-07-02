@@ -20,7 +20,7 @@ const connectToDb = require("./database/connectDB");
 const db = connectToDb(mongoose, dbName);
 
 
-cron.schedule('* * */3 * *', async () =>{
+const emailJob =  cron.schedule('* * */3 * *', async () =>{
   // send content of the Error Log createdBy Winston
   try{
     let pathToLoggerFile = path.join(__dirname,"errorLogger.log")
@@ -65,3 +65,4 @@ app.use(handleErrors)
 
 module.exports = app
 module.exports.db = db
+module.exports.job = emailJob
