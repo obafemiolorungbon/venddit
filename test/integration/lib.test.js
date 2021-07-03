@@ -84,7 +84,7 @@ describe("Integration TESTS", ()=>{
                expect(res.statusCode).toEqual(201);
              });
 
-             it("should return a json object with registered user object", async () => {
+             it.skip("should return a json object with registered user object", async () => {
                const res = await request(app)
                  .post("/users/signup")
                  .field("businessName", businessName)
