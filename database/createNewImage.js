@@ -3,7 +3,9 @@ module.exports = (req, model, userID) => {
     const newImage = new model({
       user: userID,
       productName: req.body.productName,
-      url:req.body.url,
+      url: req.body.url,
+      description: req.body.description,
+      price: req.body.price,
     });
 
     newImage.save((err, newImage) => {

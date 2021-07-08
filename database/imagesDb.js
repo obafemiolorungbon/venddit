@@ -1,20 +1,27 @@
-
-module.exports = ( mongoose ) => {
+module.exports = (mongoose) => {
   const imagesSchema = new mongoose.Schema({
     user: {
       type: mongoose.Schema.Types.ObjectID,
       required: ["User is required to add a new image", true],
-      ref:"user",
+      ref: "user",
     },
     productName: {
       type: String,
       required: ["Product name must be provided", true],
     },
     url: { type: String, required: ["Url is not provided", true] },
-    dateCreated:{
-      type:Date,
-      default:Date.now,
-    }
+    description: {
+      type: String,
+      required: ["Description is required", true],
+      default: "This product does not have a description",
+    },
+    price: {
+      type: String,
+    },
+    dateCreated: {
+      type: Date,
+      default: Date.now,
+    },
   });
   //if the environment is test, use a different db to avoid polluting the db
   if (process.env.NODE_ENV == "test") {
